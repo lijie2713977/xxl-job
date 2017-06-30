@@ -3,16 +3,14 @@ package com.xxl.job.admin.core.model;
 public class XxlJobSubSQL {
 
     private int id;
-    private String subTaskName;
+    private String subtask_name;
     private String sql;
 
     public int getId() {
         return id;
     }
 
-    public String getSubTaskName() {
-        return subTaskName;
-    }
+    
 
     public String getSql() {
         return sql;
@@ -22,11 +20,21 @@ public class XxlJobSubSQL {
         this.id = id;
     }
 
-    public void setSubTaskName(String subTaskName) {
-        this.subTaskName = subTaskName;
-    }
+    
 
-    public void setSql(String sql) {
+    public String getSubtask_name() {
+		return subtask_name;
+	}
+
+
+
+	public void setSubtask_name(String subtask_name) {
+		this.subtask_name = subtask_name;
+	}
+
+
+
+	public void setSql(String sql) {
         this.sql = sql;
     }
 }

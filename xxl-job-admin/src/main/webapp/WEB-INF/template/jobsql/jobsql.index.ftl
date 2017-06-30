@@ -109,16 +109,16 @@
                 <div class="modal-body">
                     <form class="form-horizontal form" role="form">
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">任务名称：<font color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="task_name"
-                                                          placeholder="请输入“排序”" maxlength="50"></div>
+                            <label for="lastname" class="col-sm-3 control-label">任务名称：<font color="red">*</font></label>
+                            <div class="col-sm-9"><input type="text" class="form-control" name="task_name"
+                                                          placeholder="请输入“任务名称”" ></div>
                         </div>
 
 
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">选择数据源：<font
+                            <label for="lastname" class="col-sm-3 control-label">选择数据源：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-9">
                                 <select class="form-control glueType" name="datasource_name">
                                 <#list echoList as item>
                                 <option value="${item}" >${item}</option>
@@ -127,16 +127,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">发送邮件列表：<font
+                            <label for="lastname" class="col-sm-3 control-label">发送邮件列表：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="cc_lists"
-                                                          placeholder="请输入“AppName”" ></div>
+                            <div class="col-sm-9"><input type="text" class="form-control" name="recipient_lists"
+                                                          placeholder="请输入“发件人”" ></div>
                         </div>
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">抄送邮件列表：<font
+                            <label for="lastname" class="col-sm-3 control-label">抄送邮件列表：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="recipient_lists"
-                                                          placeholder="请输入“名称”" ></div>
+                            <div class="col-sm-9"><input type="text" class="form-control" name="cc_lists"
+                                                          placeholder="请输入“抄送人”" ></div>
                         </div>
 
 
@@ -164,14 +164,14 @@
                 <div class="modal-body">
                     <form class="form-horizontal form" role="form">
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">任务名称：<font color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="task_name"
-                                                          placeholder="请输入任务名称" maxlength="50"></div>
+                            <label for="lastname" class="col-sm-3 control-label">任务名称：<font color="red">*</font></label>
+                            <div class="col-sm-9"><input type="text" class="form-control" name="task_name"
+                                                          placeholder="请输入“任务名称”" ></div>
                         </div>
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">选择数据源：<font
+                            <label for="lastname" class="col-sm-3 control-label">选择数据源：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-9">
                                 <select class="form-control glueType" name="datasource_name">
                                 <#list echoList as item>
                                 <option value="${item}" >${item}</option>
@@ -180,16 +180,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">发送邮件列表：<font
+                            <label for="lastname" class="col-sm-3 control-label">发送邮件列表：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="cc_lists"
-                                                          placeholder="请输入发件人列表”" ></div>
+                            <div class="col-sm-9"><input type="text" class="form-control" name="recipient_lists"
+                                                          placeholder="请输入“发件人”" ></div>
                         </div>
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">抄送邮件列表：<font
+                            <label for="lastname" class="col-sm-3 control-label">抄送邮件列表：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="recipient_lists"
-                                                          placeholder="请输入“名称”" ></div>
+                            <div class="col-sm-9"><input type="text" class="form-control" name="cc_lists"
+                                                          placeholder="请输入“抄送人”" ></div>
                         </div>
 
                         <hr>
@@ -222,7 +222,7 @@
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">子任务名称：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-8"><input type="text" class="form-control" name="order"
+                            <div class="col-sm-8"><input type="text" class="form-control" name="subtask_name"
                                                          placeholder="请输入子任务名称"></div>
                         </div>
 
@@ -235,13 +235,15 @@
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
 
-                            <#--<button class="btn btn-info btn-xs pull-left2 add">+新增</button>-->
-                            <#--<button class="btn btn-info btn-xs pull-left2 save">+保存</button>-->
+                            <#--<button class="btn btn-info btn-xs pull-left2 subAdd">+新增</button>-->
+                            <#--<button class="btn btn-info btn-xs pull-left2 subSave">+保存</button>-->
                             <#--<button type="submit" class="btn btn-info btn-xs pull-left2 testsql">测试SQL</button>-->
 
-                                <button class="btn btn-default add">+新增</button>
-                                <button class="btn btn-default save">+保存</button>
+                                <button class="btn btn-default subAdd">+新增</button>
+                                <button class="btn btn-default subSave">+保存</button>
                                 <a type="submit" class="btn btn-default testsql">测试SQL</a>
+                                <button type="button" id="rebut" class="btn btn-default" data-dismiss="modal">取消
+                                </button>
                                 <div class="col-sm-9" id="errMsg" style="display: none;"><font color="red">测试失败!</font>
                                 </div>
                                 <div class="col-sm-9" id="rigMsg" style="display: none;"><font
@@ -285,11 +287,11 @@
                             </table>
                         </div>
                 </div>
-                <div class="modal-footer">
+              <!--<div class="modal-footer">
                     <button type="button" id="rebut" class="btn btn-default" data-dismiss="modal">关闭
                     </button>
 
-                </div>
+                </div>-->
             <#--<hr>-->
 
             </div>
