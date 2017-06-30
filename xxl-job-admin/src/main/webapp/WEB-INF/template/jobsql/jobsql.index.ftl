@@ -233,8 +233,8 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <button class="btn btn-default add">+新增</button>
-                                <button class="btn btn-default save">+保存</button>
+                                <a class="btn btn-default subAdd">+新增</a>
+                                <a class="btn btn-default subSave">+保存</a>
                                 <a type="submit" class="btn btn-default testsql">测试SQL</a>
                                 <button type="button" id="rebut" class="btn btn-default" data-dismiss="modal">取消
                                 </button>

@@ -113,36 +113,34 @@ public class JobSQLController {
         return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
     }
 
-   /* 
+   
 
-    @RequestMapping("/updateSub")
+    @RequestMapping("/subSave")
     @ResponseBody
-    public ReturnT<String> updateSub(XxlJobSQL xxlJobSQL) {
+    public ReturnT<String> subSave(XxlJobSubSQL xxlJobSubSQL,int id) {
         // valid
-        if (xxlJobSQL.getAppName() == null || StringUtils.isBlank(xxlJobSQL.getAppName())) {
-            return new ReturnT<String>(500, "请输入AppName");
-        }
-        if (xxlJobSQL.getAppName().length() > 64) {
-            return new ReturnT<String>(500, "AppName长度限制为4~64");
-        }
-        if (xxlJobSQL.getTitle() == null || StringUtils.isBlank(xxlJobSQL.getTitle())) {
-            return new ReturnT<String>(500, "请输入名称");
-        }
-        if (xxlJobSQL.getAddressType() != 0) {
-            if (StringUtils.isBlank(xxlJobSQL.getAddressList())) {
-                return new ReturnT<String>(500, "手动录入注册方式，机器地址不可为空");
-            }
-            String[] addresss = xxlJobSQL.getAddressList().split(",");
-            for (String item : addresss) {
-                if (StringUtils.isBlank(item)) {
-                    return new ReturnT<String>(500, "机器地址非法");
-                }
-            }
-        }
-
-        int ret = xxlJobSQLDao.update(xxlJobSQL);
+       String sqlList = xxlJobSQLDao.querySubTasks(id);
+       JSONObject jsonObject = JSON.parseObject(sqlList);//json字符串转换成jsonobject对象
+       JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
+       String task_name=jsonObject.get("task_name").toString();
+       String datasource_name =jsonObject.get("datasource_name").toString();
+       String recipient_lists=jsonObject.get("recipient_lists").toString();
+       String cc_lists=jsonObject.getJSONObject("cc_lists").toString();
+       List<XxlJobSubSQL> subList = jsonArray.toJavaList(XxlJobSubSQL.class);
+       subList.add(xxlJobSubSQL);
+       XxlJobSQL jobSQL=new XxlJobSQL();
+        jobSQL.setId(id);
+        jobSQL.setTask_name(task_name);
+        jobSQL.setRecipient_lists(recipient_lists);
+        jobSQL.setDatasource_name(datasource_name);
+        jobSQL.setCc_lists(cc_lists);
+        jobSQL.setSubtasks(subList);
+        String newSqlList = JSON.toJSONString(jobSQL);
+        jobSQL.setSqlList(sqlList);
+        int ret = xxlJobSQLDao.update(jobSQL);
         return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
-    }*/
+        
+    }
 
     @RequestMapping("/remove")
     @ResponseBody

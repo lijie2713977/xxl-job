@@ -10,7 +10,7 @@ public class XxlJobSQL {
 	private String datasource_name;
 	private transient String sqlList;
 	private String recipient_lists;
-	private List<XxlJobSubSQL> xxlJobSubSQLs;
+	private List<XxlJobSubSQL> subtasks;
 	private String cc_lists;
 	public String getTask_name() {
 		return task_name;
@@ -74,18 +74,24 @@ public class XxlJobSQL {
 		this.sqlList = sqlList;
 	}
 
-	public List<XxlJobSubSQL> getXxlJobSubSQLs() {
-		return xxlJobSubSQLs;
-	}
+	
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
+
+	public List<XxlJobSubSQL> getSubtasks() {
+		return subtasks;
+	}
+
+
+	public void setSubtasks(List<XxlJobSubSQL> subtasks) {
+		this.subtasks = subtasks;
+	}
+
 	
 
 	
-	public void setXxlJobSubSQLs(List<XxlJobSubSQL> xxlJobSubSQLs) {
-		this.xxlJobSubSQLs = xxlJobSubSQLs;
-	}
+	
 }
