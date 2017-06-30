@@ -81,8 +81,7 @@
                                             </button>
                                             <button class="btn btn-danger btn-xs remove" id="${group.id}">删除</button>
                                             <button class="btn btn-warning btn-xs updateSub" data-toggle="modal"
-                                                    id="${group.id}" subtasks="${sqllist.subtasks[0].subtask_name}">
-                                                编辑子任务
+                                                    id="${group.id}">编辑子任务
                                             </button>
 
                                         </td>
@@ -234,11 +233,6 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-
-                            <#--<button class="btn btn-info btn-xs pull-left2 add">+新增</button>-->
-                            <#--<button class="btn btn-info btn-xs pull-left2 save">+保存</button>-->
-                            <#--<button type="submit" class="btn btn-info btn-xs pull-left2 testsql">测试SQL</button>-->
-
                                 <button class="btn btn-default add">+新增</button>
                                 <button class="btn btn-default save">+保存</button>
                                 <a type="submit" class="btn btn-default testsql">测试SQL</a>
@@ -259,28 +253,27 @@
                                     <th name="operate">操作</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="subtasklist">
                                 <#--<#assign sqllist="${group.sqlList}"?eval />-->
-                                <#list sqllist.subtasks as item>
-                                <#--<#assign var = 1 >-->
-                                <tr>
-                                    <td>${item_index+1}</td>
-                                    <td>${item.subtask_name}</td>
-                                <#--<td>${item.sql}</td>-->
-                                    <td>
-                                        <button class="btn btn-warning btn-xs updateSub"
-                                                id="${item_index+1}"
-                                                subtask_name="${item.subtask_name}"
-                                                sql="${item.sql}">编辑
-                                        </button>
-                                        <button class="btn btn-danger btn-xs remove" id="${item.subtask_name}">删除
-                                        </button>
-                                        <button class="btn btn-warning btn-xs up" id="${item.subtask_name}">上移</button>
-                                        <button class="btn btn-warning btn-xs down" id="${item.subtask_name}">下移
-                                        </button>
-                                    </td>
-                                </tr>
-                                </#list>
+                                <#--<#list sqllist.subtasks as item>-->
+                                <#--<tr>-->
+                                    <#--<td>${item_index+1}</td>-->
+                                    <#--<td>${item.subtask_name}</td>-->
+                                    <#--<input type="hidden" name="sql">-->
+                                    <#--<td>-->
+                                        <#--<button class="btn btn-warning btn-xs updateSub"-->
+                                                <#--id="${item_index+1}"-->
+                                                <#--subtask_name="${item.subtask_name}"-->
+                                                <#--sql="${item.sql}">编辑-->
+                                        <#--</button>-->
+                                        <#--<button class="btn btn-danger btn-xs remove" id="${item.subtask_name}">删除-->
+                                        <#--</button>-->
+                                        <#--<button class="btn btn-warning btn-xs up" id="${item.subtask_name}">上移</button>-->
+                                        <#--<button class="btn btn-warning btn-xs down" id="${item.subtask_name}">下移-->
+                                        <#--</button>-->
+                                    <#--</td>-->
+                                <#--</tr>-->
+                                <#--</#list>-->
                                 </tbody>
                             </table>
                         </div>

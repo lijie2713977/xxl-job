@@ -56,13 +56,12 @@ public class JobSQLController {
 
     @RequestMapping("/subTaskList")
     @ResponseBody
-    public ReturnT<String> subTaskList(XxlJobSQL xxlJobSQL) {
-        int id = xxlJobSQL.getId();
+    public String subTaskList(int id) {
         String subTasks = xxlJobSQLDao.querySubTasks(id);
         JSONObject jsonObject = JSON.parseObject(subTasks);//json字符串转换成jsonobject对象
         JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
         String jsonStr = jsonArray.toJSONString();//JSONArray转化json字符串
-        return new ReturnT<String>(jsonStr);
+        return jsonStr;
     }
 
 

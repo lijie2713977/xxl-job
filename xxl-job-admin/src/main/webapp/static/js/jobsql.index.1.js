@@ -34,9 +34,9 @@ $(function () {
         });
 
     });
-   
+
     // jquery.validate 自定义校验 “英文字母开头，只含有英文字母、数字和下划线”
-    
+
 
     $('.add').on('click', function () {
         $('#addModal').modal({backdrop: false, keyboard: false}).modal('show');
@@ -46,26 +46,26 @@ $(function () {
         errorClass: 'help-block',
         focusInvalid: true,
         rules: {
-        	task_name: {
+            task_name: {
                 required: true,
                 rangelength: [4, 1000],
-               
+
             },
             cc_lists: {
                 required: true,
                 rangelength: [4, 1000]
             },
             recipient_lists: {
-            	required: true,
-            	rangelength: [4, 1000]
+                required: true,
+                rangelength: [4, 1000]
             }
-            
+
         },
         messages: {
-        	task_name: {
+            task_name: {
                 required: "请输入“任务名称”",
                 rangelength: "任务名称长度限制为4~64"
-                
+
             },
             cc_lists: {
                 required: "请输入“发件人”",
@@ -74,7 +74,7 @@ $(function () {
             recipient_lists: {
                 required: "请输入“收件人”",
                 rangelength: "收件人长度限制为4~12"
-               
+
             }
         },
         highlight: function (element) {
@@ -129,7 +129,7 @@ $(function () {
 
     // update
     $('.update').on('click', function () {
-    	$('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');
+        $('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');
         $("#updateModal .form input[name='task_name']").val($(this).attr("task_name"));
         $("#updateModal .form input[name='cc_lists']").val($(this).attr("cc_lists"));
         $("#updateModal .form input[name='recipient_lists']").val($(this).attr("recipient_lists"));
@@ -137,36 +137,36 @@ $(function () {
 
         // 注册方式
         var datasource_name = $(this).attr("datasource_name");
-      
-        $("#updateModal .form select[name='datasource_name'][value='"+ datasource_name +"']").attr('selected', 'true');
-       
-       
+
+        $("#updateModal .form select[name='datasource_name'][value='" + datasource_name + "']").attr('selected', 'true');
+
+
     });
     var updateModalValidate = $("#updateModal .form").validate({
         errorElement: 'span',
         errorClass: 'help-block',
         focusInvalid: true,
         rules: {
-        	task_name: {
+            task_name: {
                 required: true,
                 rangelength: [4, 1000],
-               
+
             },
             cc_lists: {
                 required: true,
                 rangelength: [4, 1000]
             },
             recipient_lists: {
-            	required: true,
-            	rangelength: [4, 1000]
+                required: true,
+                rangelength: [4, 1000]
             }
-            
+
         },
         messages: {
-        	task_name: {
+            task_name: {
                 required: "请输入“AppName”",
                 rangelength: "AppName长度限制为4~64"
-                
+
             },
             cc_lists: {
                 required: "请输入“执行器名称”",
@@ -175,7 +175,7 @@ $(function () {
             recipient_lists: {
                 required: "请输入“排序”",
                 rangelength: "长度限制为4~12"
-               
+
             }
         },
         highlight: function (element) {
@@ -219,48 +219,40 @@ $(function () {
 
     // updateSub
     $('.updateSub').on('click', function () {
-        $("#updateSubModal .form input[name='id']").val($(this).attr("id"));
-        // alert($(this).attr("subtasks"));
-        // $("#updateSubModal .form input[name='subtasks']").val($(this).attr("subtasks"));
         var id = $(this).attr('id');
-        // $.ajax({
-        //     type: 'POST',
-        //     url: base_url + '/jobsql/subTaskList',
-        //     data: {"id": id},
-        //     dataType: "json",
-        //     success: function (data) {
-        //         if (data.code == 200) {
-        //             layer.open({
-        //                 title: '系统提示',
-        //                 content: '删除成功',
-        //                 icon: '1',
-        //                 end: function (layero, index) {
-        //                     window.location.reload();
-        //                 }
-        //             });
-        //         } else {
-        //             layer.open({
-        //                 title: '系统提示',
-        //                 content: (data.msg || "删除失败"),
-        //                 icon: '2'
-        //             });
-        //         }
-        //     },
-        // });
-
-        // $("#updateSubModal .form input[name='title']").val($(this).attr("title"));
-        // $("#updateSubModal .form input[name='order']").val($(this).attr("order"));
-
-        // // 注册方式
-        // var addressType = $(this).attr("addressType");
-        // $("#updateSubModal .form input[name='addressType']").removeAttr('checked');
-        // //$("#updateModal .form input[name='addressType'][value='"+ addressType +"']").attr('checked', 'true');
-        // $("#updateSubModal .form input[name='addressType'][value='" + addressType + "']").click();
-        // // 机器地址
-        // $("#updateSubModal .form input[name='addressList']").val($(this).attr("addressList"));
-
+        $.ajax({
+            type: 'POST',
+            url: base_url + '/jobsql/subTaskList',
+            data: {"id": id},
+            dataType: "json",
+            success: function (data) {
+                var addbody = $('#subtasklist');
+                addbody.html("");//进入前清空之前的数据
+                if (typeof(data.length) != "undefined") {
+                    for (var o in data) {
+                        var subtable = $(
+                            "<tr> " +
+                            "<td>" + o + 1 + "</td>" +
+                            "<td>" + data[o].subtask_name + "</td>" +
+                            // "<input type='hidden' name='sql' value='+" + datajson[o].sql + "'" + "</input>" +
+                            "<td>" + "<button class='btn btn-warning btn-xs updateSub' id='${item_index+1}' subtask_name='${item.subtask_name}' sql='${item.sql}'>" + "编辑9</button>" +
+                            "</td>" +
+                            "</tr>"
+                        );
+                        addbody.append(subtable);
+                    }
+                } else {
+                    layer.open({
+                        title: '错误',
+                        content: ('未找到对应的数据！'),
+                        icon: '2'
+                    });
+                }
+            }
+        });
         $('#updateSubModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
+
     var updateSubModalValidate = $("#updateSubModal .form").validate({
         errorElement: 'span',
         errorClass: 'help-block',
