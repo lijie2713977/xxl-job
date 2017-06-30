@@ -231,7 +231,11 @@ $(function () {
                             "<td>" + o + 1 + "</td>" +
                             "<td>" + data[o].subtask_name + "</td>" +
                             // "<input type='hidden' name='sql' value='+" + datajson[o].sql + "'" + "</input>" +
-                            "<td>" + "<button class='btn btn-warning btn-xs updateSub' id='${item_index+1}' subtask_name='${item.subtask_name}' sql='${item.sql}'>" + "编辑9</button>" +
+                            "<td>" +
+                            "<button class='btn btn-warning btn-xs updateSub' id='${item_index+1}' subtask_name='${item.subtask_name}' sql='${item.sql}'>编辑</button>" +
+                            "<button class='btn btn-danger btn-xs remove' id='"+data[o].subtask_name+"'>删除</button>" +
+                            "<button class='btn btn-warning btn-xs up' id='"+data[o].subtask_name+"'>上移</button>" +
+                            "<button class='btn btn-warning btn-xs down' id='"+data[o].subtask_name+"'>下移</button>"+
                             "</td>" +
                             "</tr>"
                         );
