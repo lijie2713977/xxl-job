@@ -1,6 +1,6 @@
 package com.xxl.job.admin.core.model;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class XxlJobSQL {
@@ -8,9 +8,9 @@ public class XxlJobSQL {
 	private transient int id;
 	private String task_name;
 	private String datasource_name;
-	private String sqlList;
+	private transient String sqlList;
 	private String recipient_lists;
-	private List<XxlJobSubSQL> xxlJobSubSQLs = new ArrayList<XxlJobSubSQL>();
+	private List<XxlJobSubSQL> xxlJobSubSQLs;
 	private String cc_lists;
 	public String getTask_name() {
 		return task_name;

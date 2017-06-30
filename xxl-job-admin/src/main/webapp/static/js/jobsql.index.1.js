@@ -64,17 +64,15 @@ $(function () {
         messages: {
             task_name: {
                 required: "请输入“任务名称”",
-                rangelength: "任务名称长度限制为4~64"
-
+                rangelength: "任务名称长度限制为4~1000"
             },
             cc_lists: {
                 required: "请输入“发件人”",
-                rangelength: "发件人长度限制为4~12"
+                rangelength: "发件人长度限制为4~1000"
             },
             recipient_lists: {
                 required: "请输入“收件人”",
-                rangelength: "收件人长度限制为4~12"
-
+                rangelength: "收件人长度限制为4~1000"
             }
         },
         highlight: function (element) {
@@ -164,18 +162,16 @@ $(function () {
         },
         messages: {
             task_name: {
-                required: "请输入“AppName”",
-                rangelength: "AppName长度限制为4~64"
-
+                required: "请输入“任务名称”",
+                rangelength: "任务名称长度限制为4~1000"
             },
             cc_lists: {
-                required: "请输入“执行器名称”",
-                rangelength: "长度限制为4~12"
+                required: "请输入“发件人”",
+                rangelength: "发件人长度限制为4~1000"
             },
             recipient_lists: {
-                required: "请输入“排序”",
-                rangelength: "长度限制为4~12"
-
+                required: "请输入“收件人”",
+                rangelength: "收件人长度限制为4~1000"
             }
         },
         highlight: function (element) {
@@ -213,7 +209,7 @@ $(function () {
     });
     $("#updateModal").on('hide.bs.modal', function () {
         $("#updateModal .form")[0].reset();
-        addModalValidate.resetForm();
+        updateModalValidate.resetForm();
         $("#updateModal .form .form-group").removeClass("has-error");
     });
 
@@ -258,35 +254,25 @@ $(function () {
         errorClass: 'help-block',
         focusInvalid: true,
         rules: {
-            appName: {
+        	subtask_name: {
                 required: true,
-                rangelength: [4, 64],
-                myValid01: true
+                rangelength: [4, 1000]
+
             },
-            title: {
+            sql: {
                 required: true,
-                rangelength: [4, 12]
-            },
-            order: {
-                required: true,
-                digits: true,
-                range: [1, 1000]
+                rangelength: [4, 1000]
             }
         },
         messages: {
-            appName: {
-                required: "请输入“AppName”",
-                rangelength: "AppName长度限制为4~64",
-                myValid01: "限制以小写字母开头，由小写字母、数字和中划线组成"
+        	subtask_name: {
+                required: "请输入“子任务名称”",
+                rangelength: "子任务名称长度限制为4~1000"
+
             },
-            title: {
-                required: "请输入“执行器名称”",
-                rangelength: "长度限制为4~12"
-            },
-            order: {
-                required: "请输入“排序”",
-                digits: "请输入整数",
-                range: "取值范围为1~1000"
+            sql: {
+                required: "请输入“sql脚本”",
+                rangelength: "长度限制为4~1000"
             }
         },
         highlight: function (element) {
@@ -322,6 +308,14 @@ $(function () {
             });
         }
     });
+    $(".subAdd").on('click',function(){
+    	$("subtask_name").val('');
+    	$("sql").val('');
+    });
+    $(".subSave").on('click',function(){
+    	$("subtask_name").val('');
+    	$("sql").val('');
+    });
     $('.testsql').on('click', function () {
         $.post(base_url + "/jobsql/testsql", $("#updateSubModal .form").serialize(), function (data, status) {
             if (data.code == "200") {
@@ -341,7 +335,7 @@ $(function () {
 
     $("#updateSubModal").on('hide.bs.modal', function () {
         $("#updateSubModal .form")[0].reset();
-        addModalValidate.resetForm();
+        updateSubModalValidate.resetForm();
         $("#updateSubModal .form .form-group").removeClass("has-error");
     });
 
