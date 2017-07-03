@@ -15,6 +15,10 @@
 		<module>xxl-job-admin</module>
 		<module>xxl-job-executor-example</module>
         <module>xxl-job-executor-springboot-example</module>
+		<module>xxl-job-database</module>
+		<module>xxl-job-executor-kylin</module>
+		<module>xxl-job-executor-sql</module>
+
     </modules>
 
 	<build>
