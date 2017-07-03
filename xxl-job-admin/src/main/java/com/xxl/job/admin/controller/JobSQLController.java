@@ -208,5 +208,19 @@ public class JobSQLController {
         return jsonStr;
     }
 
+    @RequestMapping("/exchange_sort")
+    @ResponseBody
+    public ReturnT<String> exchange_sort(String current_id,String exchange_id) {
+        List<XxlJobSQL> xxlJobSQLs = xxlJobSQLDao.findAll();
+        List<String> xxlJobSQLStrs = new ArrayList<String>();
+        for (XxlJobSQL xxlJobSQL : xxlJobSQLs) {
+            xxlJobSQLStrs.add(xxlJobSQL.getSqlList());
+        }
+        String jsonStr = JSON.toJSONString(xxlJobSQLStrs, true);
+        System.out.println("查询所有SQL列表的jsonStr:" + jsonStr);
+        return ReturnT.SUCCESS;
+    }
+
+
 
 }

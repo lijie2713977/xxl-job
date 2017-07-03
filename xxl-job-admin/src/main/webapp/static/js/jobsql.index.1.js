@@ -234,8 +234,8 @@ $(function () {
                             "<td>" +
                             "<a class='btn btn-warning btn-xs updateSub' id="+o+1+" subtask_name="+data[o].subtask_name+" sql="+data[o].sql+">编辑</a>" +
                             "<a class='btn btn-danger btn-xs remove' id="+data[o].subtask_name+">删除</a>" +
-                            "<a class='btn btn-warning btn-xs up' id="+data[o].subtask_name+">上移</a>" +
-                            "<a class='btn btn-warning btn-xs down' id="+data[o].subtask_name+">下移</a>"+
+                            "<a class='btn btn-warning btn-xs up' id='"+id+"' subtask_name="+data[o].subtask_name+">上移</a>" +
+                            "<a class='btn btn-warning btn-xs down' id='"+id+"' subtask_name="+data[o].subtask_name+">下移</a>"+
                             "</td>" +
                             "</tr>"
                         );
@@ -370,19 +370,53 @@ $(function () {
     $('#subtasklist').on('click', '.up', function () {
         var $tr = $(this).parents("tr");
         if ($tr.index() != 0) {
-            $tr.fadeOut().fadeIn();
-            $tr.prev().before($tr);
+            // id是子任务名称
+
+            var id = $tr.attr('id');
+            var current_id = $tr.attr('subtask_name');
+            var exchange_id = $tr.prev("tr").attr('subtask_name');
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/jobsql/exchange_sort",
+                data: 'id='+id+'current_id=' + current_id + '&exchange_id=' + exchange_id,
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        $tr.fadeOut().fadeIn();
+                        $tr.prev().before($tr);
+                        layer.msg('上移成功', {icon: 1});
+                    } else {
+                        layer.msg('上移失败', {icon: 2});
+                    }
+                }
+            });
+
         }
     });
-    
+
     //下移
     $('#subtasklist').on('click', '.down', function () {
         var $down = $(".down");
         var len = $down.length;
         var $tr = $(this).parents("tr");
         if ($tr.index() != len - 1) {
-            $tr.fadeOut().fadeIn();
-            $tr.next().after($tr);
+            var current_id = $tr.attr('id');
+            var exchange_id = $tr.next("tr").attr('id');
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/jobsql/exchange_sort",
+                data: 'current_id=' + current_id + '&exchange_id=' + exchange_id,
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        $tr.fadeOut().fadeIn();
+                        $tr.next().after($tr);
+                        layer.msg('下移成功', {icon: 1});
+                    } else {
+                        layer.msg('下移失败', {icon: 2});
+                    }
+                }
+            });
         }
     });
 
