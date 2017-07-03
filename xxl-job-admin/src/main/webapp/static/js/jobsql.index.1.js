@@ -367,18 +367,18 @@ $(function () {
 
 
     //上移
-    var $up = $(".up");
-    $up.click(function () {
+    $('#subtasklist').on('click', '.up', function () {
         var $tr = $(this).parents("tr");
         if ($tr.index() != 0) {
             $tr.fadeOut().fadeIn();
             $tr.prev().before($tr);
         }
     });
+    
     //下移
-    var $down = $(".down");
-    var len = $down.length;
-    $down.click(function () {
+    $('#subtasklist').on('click', '.down', function () {
+        var $down = $(".down");
+        var len = $down.length;
         var $tr = $(this).parents("tr");
         if ($tr.index() != len - 1) {
             $tr.fadeOut().fadeIn();
