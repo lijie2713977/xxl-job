@@ -64,6 +64,19 @@ public class JobSQLController {
         return jsonStr;
     }
 
+    @RequestMapping("/findAll")
+    @ResponseBody
+    public String taskList(int id) {
+        List<XxlJobSQL> xxlJobSQLs = xxlJobSQLDao.findAll();
+        List<String> xxlJobSQLStrs= new ArrayList<String>();
+        for(XxlJobSQL xxlJobSQL:xxlJobSQLs)  {
+            xxlJobSQLStrs.add(xxlJobSQL.getSqlList());
+        }
+        String jsonStr = JSON.toJSONString(xxlJobSQLStrs,true);
+        System.out.println("查询所有SQL列表的jsonStr:"+jsonStr);
+        return jsonStr;
+    }
+
 
     @RequestMapping("/save")
     @ResponseBody
