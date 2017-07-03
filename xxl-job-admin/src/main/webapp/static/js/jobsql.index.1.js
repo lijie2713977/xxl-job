@@ -232,10 +232,10 @@ $(function () {
                             "<td>" + data[o].subtask_name + "</td>" +
                             // "<input type='hidden' name='sql' value='+" + datajson[o].sql + "'" + "</input>" +
                             "<td>" +
-                            "<button class='btn btn-warning btn-xs updateSub' id='${item_index+1}' subtask_name='${item.subtask_name}' sql='${item.sql}'>编辑</button>" +
-                            "<button class='btn btn-danger btn-xs remove' id='"+data[o].subtask_name+"'>删除</button>" +
-                            "<button class='btn btn-warning btn-xs up' id='"+data[o].subtask_name+"'>上移</button>" +
-                            "<button class='btn btn-warning btn-xs down' id='"+data[o].subtask_name+"'>下移</button>"+
+                            "<a class='btn btn-warning btn-xs updateSub' id="+o+1+" subtask_name="+data[o].subtask_name+" sql="+data[o].sql+">编辑</a>" +
+                            "<a class='btn btn-danger btn-xs remove' id="+data[o].subtask_name+">删除</a>" +
+                            "<a class='btn btn-warning btn-xs up' id="+data[o].subtask_name+">上移</a>" +
+                            "<a class='btn btn-warning btn-xs down' id="+data[o].subtask_name+">下移</a>"+
                             "</td>" +
                             "</tr>"
                         );
@@ -313,12 +313,34 @@ $(function () {
         }
     });
     $(".subAdd").on('click',function(){
-    	$("subtask_name").val('');
+    	$("#subtask_name").val('');
     	$("sql").val('');
     });
+    $(".updateSub").on('click',function(){
+    	$("#subtask_name").val('subtask_name');
+    	$("sql").val('sql');
+    });
     $(".subSave").on('click',function(){
-    	$("subtask_name").val('');
-    	$("sql").val('');
+    	$("#updateSubModal .form input[name='id']").val($(this).attr("id"));
+    	$.post(base_url + "/jobsql/subSave", $("#updateSubModal .form").serialize(), function (data, status) {
+            if (data.code == "200") {
+                $('#updateSubModal').modal('hide');
+                layer.open({
+                    title: '系统提示',
+                    content: '保存成功',
+                    icon: '1',
+                    end: function (layero, index) {
+                        window.location.reload();
+                    }
+                });
+            } else {
+                layer.open({
+                    title: '系统提示',
+                    content: (data.msg || "保存失败"),
+                    icon: '2'
+                });
+            }
+        });
     });
     $('.testsql').on('click', function () {
         $.post(base_url + "/jobsql/testsql", $("#updateSubModal .form").serialize(), function (data, status) {
