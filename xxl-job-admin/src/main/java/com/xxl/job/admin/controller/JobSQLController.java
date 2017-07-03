@@ -202,7 +202,29 @@ public class JobSQLController {
     		e.printStackTrace();
     		return  ReturnT.FAIL;
     	}
-    	
+
+    public ReturnT<String> subSave(XxlJobSubSQL xxlJobSubSQL, int id) {
+        // valid
+        String sqlList = xxlJobSQLDao.querySubTasks(id);
+        JSONObject jsonObject = JSON.parseObject(sqlList);//json字符串转换成jsonobject对象
+        JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
+        String task_name = jsonObject.get("task_name").toString();
+        String datasource_name = jsonObject.get("datasource_name").toString();
+        String recipient_lists = jsonObject.get("recipient_lists").toString();
+        String cc_lists = jsonObject.getJSONObject("cc_lists").toString();
+        List<XxlJobSubSQL> subList = jsonArray.toJavaList(XxlJobSubSQL.class);
+        subList.add(xxlJobSubSQL);
+        XxlJobSQL jobSQL = new XxlJobSQL();
+        jobSQL.setId(id);
+        jobSQL.setTask_name(task_name);
+        jobSQL.setRecipient_lists(recipient_lists);
+        jobSQL.setDatasource_name(datasource_name);
+        jobSQL.setCc_lists(cc_lists);
+        jobSQL.setSubtasks(subList);
+        String newSqlList = JSON.toJSONString(jobSQL);
+        jobSQL.setSqlList(newSqlList);
+        int ret = xxlJobSQLDao.update(jobSQL);
+        return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
     }
 
     @RequestMapping("/remove")
@@ -271,5 +293,6 @@ public class JobSQLController {
         return jsonStr;
     }
 
+}
 
 }
