@@ -242,11 +242,11 @@ $(function () {
                         addbody.append(subtable);
                     }
                 } else {
-                    layer.open({
-                        title: '错误',
-                        content: ('未找到对应的数据！'),
-                        icon: '2'
-                    });
+                    // layer.open({
+                    //     title: '错误',
+                    //     content: ('未找到对应的数据！'),
+                    //     icon: '2'
+                    // });
                 }
             }
         });

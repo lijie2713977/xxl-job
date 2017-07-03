@@ -29,11 +29,10 @@ public interface IXxlJobSQLDao {
 
 
     /**
-     * 任务id
+     * 子任务id
      * @param id
      * @return
      */
     public String querySubTasks(int id);
-
 
 }

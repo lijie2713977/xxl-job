@@ -21,7 +21,7 @@ public class XxlJobSQLDaoImpl implements IXxlJobSQLDao {
 
     @Override
     public List<XxlJobSQL> findAll() {
-    	System.out.println(sqlSessionTemplate.selectList("XxlJobSQLMapper.findAll"));
+//    	System.out.println(sqlSessionTemplate.selectList("XxlJobSQLMapper.findAll"));
         return sqlSessionTemplate.selectList("XxlJobSQLMapper.findAll");
     }
     @Override

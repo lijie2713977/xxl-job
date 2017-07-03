@@ -108,11 +108,12 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">执行器<font color="red">*</font></label>
 						<div class="col-sm-4">
-							<select class="form-control" name="jobGroup" >
+							<select id="typeid" class="form-control executorSelect" name="jobGroup" onchange="gettypename()">
 		            			<#list JobGroupList as group>
-		            				<option value="${group.id}" >${group.title}</option>
+		            				<option value="${group.id}">${group.title}</option>
 		            			</#list>
 		                  	</select>
+                            <input id="typename" name="typename" type="hidden" value=""/>
 						</div>
                         <label for="lastname" class="col-sm-2 control-label">任务描述<font color="red">*</font></label>
                         <div class="col-sm-4"><input type="text" class="form-control" name="jobDesc" placeholder="请输入“描述”" maxlength="50" ></div>
@@ -142,8 +143,32 @@
                         <div class="col-sm-4"><input type="text" class="form-control" name="executorHandler" placeholder="请输入“JobHandler”" maxlength="100" ></div>
                     </div>
                     <div class="form-group">
+                        <#--<input id="exeParameters" name="exeParameters" type="hidden" value="32"/>-->
                         <label for="firstname" class="col-sm-2 control-label">执行参数<font color="black">*</font></label>
-                        <div class="col-sm-4"><input type="text" class="form-control" name="executorParam" placeholder="请输入“执行参数”" maxlength="100" ></div>
+                            <#--<div id="exeParameters1" style="display: none;">-->
+                                <#--<div class="col-sm-4"><input type="text" class="form-control" name="executorParam"-->
+                                                             <#--placeholder="请输入“执行参数”" maxlength="100"></div>-->
+                            <#--</div>-->
+                            <#--<div id="exeParameters2" style="display: none;">-->
+                                <#--<div class="col-sm-4"><select class="form-control glueType"-->
+                                                              <#--name="datasource_name"><#list echoList as item>-->
+                                    <#--<option value="0">选择SQL</option>-->
+                                    <#--<option value="${item}">${item}</option> </#list></select>" +-->
+                                    <#--<button type="button" class="btn btn-warning btn-xs updateSub" id="2321">新建SQL2-->
+                                    <#--</button>-->
+                                <#--</div>-->
+                            <#--</div>-->
+                            <#--<div id="exeParameters3" style="display: none;">22</div>-->
+                            <#--<div id="exeParameters4" style="display: none;">2223</div>-->
+                            <div id="exeParameters"></div>
+					<#--<#if "${exeParameters}" == 1>-->
+
+					<#--<#elseif "${exeParameters}" == 2>-->
+                        <#--x is 2-->
+					<#--<#else>-->
+                        <#--<div class="col-sm-4"><input type="text" class="form-control" name="executorParam"-->
+                                                     <#--placeholder="请输入“执行参数”" maxlength="100"></div>-->
+					<#--</#if>-->
                         <label for="lastname" class="col-sm-2 control-label">子任务Key<font color="black">*</font></label>
                         <div class="col-sm-4"><input type="text" class="form-control" name="childJobKey" placeholder="请输入子任务的任务Key,如存在多个逗号分隔" maxlength="100" ></div>
                     </div>
@@ -238,6 +263,91 @@ logging.info("脚本文件：" + sys.argv[0])
          	</div>
 		</div>
 	</div>
+</div>
+
+<!-- 子更新.模态框 -->
+<div class="modal fade" id="updateSubModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">子任务</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal form" role="form">
+                    <div class="form-group">
+                        <label for="lastname" class="col-sm-2 control-label">子任务名称：<font
+                                color="red">*</font></label>
+                        <div class="col-sm-8"><input type="text" class="form-control" name="subtask_name"
+                                                     placeholder="请输入子任务名称"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastname" class="col-sm-2 control-label">SQL脚本：<font
+                                color="red">*</font></label>
+                        <div class="col-sm-8"><textarea class="form-control" rows="3" name="sql"
+                                                        placeholder="请输入SQL脚本"></textarea></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <button class="btn btn-default add">+新增</button>
+                            <button class="btn btn-default save">+保存</button>
+                            <a type="submit" class="btn btn-default testsql">测试SQL</a>
+                            <button type="button" id="rebut" class="btn btn-default" data-dismiss="modal">取消
+                            </button>
+                            <div class="col-sm-9" id="errMsg" style="display: none;"><font color="red">测试失败!</font>
+                            </div>
+                            <div class="col-sm-9" id="rigMsg" style="display: none;"><font
+                                    color="green">测试成功!</font></div>
+                            <input type="hidden" name="id">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <table id="joblog_list" class="table table-bordered table-striped display" width="100%">
+                            <thead>
+                            <tr>
+                                <th name="id">序号</th>
+                                <th name="subtasks">子任务名称</th>
+                                <th name="operate">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="subtasklist">
+							<#--<#assign sqllist="${group.sqlList}"?eval />-->
+                                <#--<#list sqllist.subtasks as item>-->
+                                <#--<tr>-->
+                                    <#--<td>${item_index+1}</td>-->
+                                    <#--<td>${item.subtask_name}</td>-->
+                                    <#--<input type="hidden" name="sql">-->
+                                    <#--<td>-->
+                                        <#--<button class="btn btn-warning btn-xs updateSub"-->
+                                                <#--id="${item_index+1}"-->
+                                                <#--subtask_name="${item.subtask_name}"-->
+                                                <#--sql="${item.sql}">编辑-->
+                                        <#--</button>-->
+                                        <#--<button class="btn btn-danger btn-xs remove" id="${item.subtask_name}">删除-->
+                                        <#--</button>-->
+                                        <#--<button class="btn btn-warning btn-xs up" id="${item.subtask_name}">上移</button>-->
+                                        <#--<button class="btn btn-warning btn-xs down" id="${item.subtask_name}">下移-->
+                                        <#--</button>-->
+                                    <#--</td>-->
+                                <#--</tr>-->
+                                <#--</#list>-->
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+            <!--<div class="modal-footer">
+                  <button type="button" id="rebut" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+
+              </div>-->
+		<#--<hr>-->
+
+        </div>
+        </form>
+    </div>
+
 </div>
 
 <!-- 更新.模态框 -->
@@ -338,5 +448,13 @@ logging.info("脚本文件：" + sys.argv[0])
 <!-- moment -->
 <script src="${request.contextPath}/static/adminlte/plugins/daterangepicker/moment.min.js"></script>
 <script src="${request.contextPath}/static/js/jobinfo.index.1.js"></script>
+
+<#--<link href="${request.contextPath}/static/adminlte/bootstrap-datetimepicker/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">-->
+<#--<link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">-->
+<#--<script type="text/javascript" src="${request.contextPath}/static/adminlte/bootstrap-datetimepicker/jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>-->
+<#--<script type="text/javascript" src="${request.contextPath}/static/adminlte/bootstrap-datetimepicker/bootstrap/js/bootstrap.min.js"></script>-->
+<#--<script type="text/javascript" src="${request.contextPath}/static/adminlte/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>-->
+<#--<script type="text/javascript" src="${request.contextPath}/static/adminlte/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>-->
+
 </body>
 </html>
