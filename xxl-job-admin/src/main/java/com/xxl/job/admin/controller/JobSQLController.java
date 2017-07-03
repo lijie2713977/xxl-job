@@ -136,7 +136,7 @@ public class JobSQLController {
         jobSQL.setCc_lists(cc_lists);
         jobSQL.setSubtasks(subList);
         String newSqlList = JSON.toJSONString(jobSQL);
-        jobSQL.setSqlList(sqlList);
+        jobSQL.setSqlList(newSqlList);
         int ret = xxlJobSQLDao.update(jobSQL);
         return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
         
