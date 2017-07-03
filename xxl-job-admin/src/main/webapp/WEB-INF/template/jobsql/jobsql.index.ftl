@@ -221,14 +221,14 @@
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">子任务名称：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-8"><input type="text" class="form-control" name="subtask_name"
+                            <div class="col-sm-8"><input type="text" class="form-control" name="subtask_name" id="subtask_name"
                                                          placeholder="请输入子任务名称"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">SQL脚本：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-8"><textarea class="form-control" rows="3" name="sql"
+                            <div class="col-sm-8"><textarea class="form-control" rows="3" name="sql" id="sql"
                                                             placeholder="请输入SQL脚本"></textarea></div>
                         </div>
                         <div class="form-group">
@@ -242,7 +242,7 @@
                                 </div>
                                 <div class="col-sm-9" id="rigMsg" style="display: none;"><font
                                         color="green">测试成功!</font></div>
-                                <input type="hidden" name="id">
+                                <input type="hidden" name="sid" >
                             </div>
                         </div>
 
