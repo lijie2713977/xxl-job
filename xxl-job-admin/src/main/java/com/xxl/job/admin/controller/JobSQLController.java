@@ -79,7 +79,7 @@ public class JobSQLController {
             return new ReturnT<String>(500, "请输入数据源");
         }
         if (xxlJobSQL.getCc_lists() == null || StringUtils.isBlank(xxlJobSQL.getTask_name())) {
-            return new ReturnT<String>(500, "请输入发件人");
+            return new ReturnT<String>(500, "请输入抄送人");
         }
         if (xxlJobSQL.getRecipient_lists() == null || StringUtils.isBlank(xxlJobSQL.getTask_name())) {
             return new ReturnT<String>(500, "请输入收件人");
@@ -102,7 +102,7 @@ public class JobSQLController {
             return new ReturnT<String>(500, "请输入数据源");
         }
         if (xxlJobSQL.getCc_lists() == null || StringUtils.isBlank(xxlJobSQL.getTask_name())) {
-            return new ReturnT<String>(500, "请输入发件人");
+            return new ReturnT<String>(500, "请输入抄送人");
         }
         if (xxlJobSQL.getRecipient_lists() == null || StringUtils.isBlank(xxlJobSQL.getTask_name())) {
             return new ReturnT<String>(500, "请输入收件人");
@@ -121,6 +121,12 @@ public class JobSQLController {
     public ReturnT<String> subSave(XxlJobSubSQL xxlJobSubSQL,int sid) {
     	try {
     		// valid
+    		if(xxlJobSubSQL.getSubtask_name()==null || StringUtils.isBlank(xxlJobSubSQL.getSubtask_name())){
+    			return new ReturnT<String>(500, "请输入子任务名称");
+    		}
+    		if(xxlJobSubSQL.getSql()==null || StringUtils.isBlank(xxlJobSubSQL.getSql())){
+    			return new ReturnT<String>(500, "请输入sql脚本");
+    		}
     		String sqlList = xxlJobSQLDao.querySubTasks(sid);
     		JSONObject jsonObject = JSON.parseObject(sqlList);//json字符串转换成jsonobject对象
     		JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
