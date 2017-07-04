@@ -155,26 +155,26 @@ public class MailUtil {
 	static int total = 0;
 	public static void main(String[] args) {
 		
-		ExecutorService exec = Executors.newCachedThreadPool();
-		for (int i = 0; i < 20; i++) {
-			exec.execute(new Thread(new Runnable() {
-				@Override
-				public void run() {
-					while(total < 10){
-						String mailBody = "<html><head><meta http-equiv="
-								+ "Content-Type"
-								+ " content="
-								+ "text/html; charset=gb2312"
-								+ "></head><body><h1>新书快递通知</h1>你的新书快递申请已推送新书，请到<a href=''>空间"
-								+ "</a>中查看</body></html>";
-						
-						sendMail("ovono802302@163.com", "测试邮件", mailBody, false, null);
-						System.out.println(total);
-						total++;
-					}
-				}
-			}));
-		}
+//		ExecutorService exec = Executors.newCachedThreadPool();
+//		for (int i = 0; i < 20; i++) {
+//			exec.execute(new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//					while(total < 10){
+//						String mailBody = "<html><head><meta http-equiv="
+//								+ "Content-Type"
+//								+ " content="
+//								+ "text/html; charset=gb2312"
+//								+ "></head><body><h1>新书快递通知</h1>你的新书快递申请已推送新书，请到<a href=''>空间"
+//								+ "</a>中查看</body></html>";
+//
+//						sendMail("ovono802302@163.com", "测试邮件", mailBody, false, null);
+//						System.out.println(total);
+//						total++;
+//					}
+//				}
+//			}));
+//		}
 	}
 	
 }

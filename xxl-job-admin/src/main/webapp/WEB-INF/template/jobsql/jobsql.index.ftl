@@ -39,7 +39,6 @@
                         <div class="box-header">
                             <h3 class="box-title">SQL任务列表</h3>&nbsp;&nbsp;
                             <button class="btn btn-info btn-xs pull-left2 add">+新增</button>
-                        <#--<button class="btn btn-info btn-xs pull-left2 save">+保存</button>-->
                         </div>
                         <div class="box-body">
                             <table id="joblog_list" class="table table-bordered table-striped display" width="100%">
@@ -61,15 +60,6 @@
                                         <td>${group.id}</td>
                                         <td>${sqllist.task_name}</td>
                                         <td>${sqllist.datasource_name}</td>
-                                    <#--<td>${sqllist.subtasks[0].subtask_name} </td>-->
-                                    <#--<td> <#assign sqllist222="sqllist.subtasks"?eval />-->
-                                    <#--${sqllist222[0].subtask_name}-->
-                                    <#--<td>-->
-                                    <#--<#assign subtaskslists="sqllist.subtasks"?eval />-->
-                                    <#--<#list sqllist.subtasks as item>-->
-                                    <#--id:${item.subtask_name}, name:${item.sql}-->
-                                    <#--</#list>-->
-                                    <#--</td>-->
                                         <td>
                                             <button class="btn btn-warning btn-xs update" data-toggle="modal"
                                                     id="${group.id}"
@@ -77,7 +67,7 @@
                                                     datasource_name="${sqllist.datasource_name}"
                                                     cc_lists="${sqllist.cc_lists}"
                                                     recipient_lists="${sqllist.recipient_lists}"
-                                                             >编辑任务
+                                            >编辑任务
                                             </button>
                                             <button class="btn btn-danger btn-xs remove" id="${group.id}">删除</button>
                                             <button class="btn btn-warning btn-xs updateSub" data-toggle="modal"
@@ -110,7 +100,7 @@
                         <div class="form-group">
                             <label for="lastname" class="col-sm-3 control-label">任务名称：<font color="red">*</font></label>
                             <div class="col-sm-9"><input type="text" class="form-control" name="task_name"
-                                                          placeholder="请输入“任务名称”" ></div>
+                                                         placeholder="请输入“任务名称”"></div>
                         </div>
 
 
@@ -120,7 +110,7 @@
                             <div class="col-sm-9">
                                 <select class="form-control glueType" name="datasource_name">
                                 <#list echoList as item>
-                                <option value="${item}" >${item}</option>
+                                    <option value="${item}">${item}</option>
                                 </#list>
                                 </select>
                             </div>
@@ -129,20 +119,20 @@
                             <label for="lastname" class="col-sm-3 control-label">发送邮件列表：<font
                                     color="red">*</font></label>
                             <div class="col-sm-9"><input type="text" class="form-control" name="recipient_lists"
-                                                          placeholder="请输入“发件人”" ></div>
+                                                         placeholder="请输入“发件人”"></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-3 control-label">抄送邮件列表：<font
                                     color="red">*</font></label>
                             <div class="col-sm-9"><input type="text" class="form-control" name="cc_lists"
-                                                          placeholder="请输入“抄送人”" ></div>
+                                                         placeholder="请输入“抄送人”"></div>
                         </div>
 
 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <button type="submit" class="btn btn-primary"  >保存</button>
-                                <button type="button"  class="btn btn-default" data-dismiss="modal">取消
+                                <button type="submit" class="btn btn-primary">保存</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消
                                 </button>
                             </div>
                         </div>
@@ -165,7 +155,7 @@
                         <div class="form-group">
                             <label for="lastname" class="col-sm-3 control-label">任务名称：<font color="red">*</font></label>
                             <div class="col-sm-9"><input type="text" class="form-control" name="task_name"
-                                                          placeholder="请输入“任务名称”" ></div>
+                                                         placeholder="请输入“任务名称”"></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-3 control-label">选择数据源：<font
@@ -173,7 +163,7 @@
                             <div class="col-sm-9">
                                 <select class="form-control glueType" name="datasource_name">
                                 <#list echoList as item>
-                                <option value="${item}" >${item}</option>
+                                    <option value="${item}">${item}</option>
                                 </#list>
                                 </select>
                             </div>
@@ -182,20 +172,20 @@
                             <label for="lastname" class="col-sm-3 control-label">发送邮件列表：<font
                                     color="red">*</font></label>
                             <div class="col-sm-9"><input type="text" class="form-control" name="recipient_lists"
-                                                          placeholder="请输入“发件人”" ></div>
+                                                         placeholder="请输入“发件人”"></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-3 control-label">抄送邮件列表：<font
                                     color="red">*</font></label>
                             <div class="col-sm-9"><input type="text" class="form-control" name="cc_lists"
-                                                          placeholder="请输入“抄送人”" ></div>
+                                                         placeholder="请输入“抄送人”"></div>
                         </div>
 
                         <hr>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <button type="submit" class="btn btn-primary"  >保存</button>
-                                <button type="button"  class="btn btn-default" data-dismiss="modal">取消
+                                <button type="submit" class="btn btn-primary">保存</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消
                                 </button>
                                 <input type="hidden" name="id">
                             </div>
@@ -221,7 +211,8 @@
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">子任务名称：<font
                                     color="red">*</font></label>
-                            <div class="col-sm-8"><input type="text" class="form-control" name="subtask_name" id="subtask_name"
+                            <div class="col-sm-8"><input type="text" class="form-control" name="subtask_name"
+                                                         id="subtask_name"
                                                          placeholder="请输入子任务名称"></div>
                         </div>
 
@@ -242,7 +233,7 @@
                                 </div>
                                 <div class="col-sm-9" id="rigMsg" style="display: none;"><font
                                         color="green">测试成功!</font></div>
-                                <input type="hidden" name="sid" >
+                                <input type="hidden" name="sid">
                             </div>
                         </div>
 
@@ -256,36 +247,10 @@
                                 </tr>
                                 </thead>
                                 <tbody id="subtasklist">
-                                <#--<#assign sqllist="${group.sqlList}"?eval />-->
-                                <#--<#list sqllist.subtasks as item>-->
-                                <#--<tr>-->
-                                    <#--<td>${item_index+1}</td>-->
-                                    <#--<td>${item.subtask_name}</td>-->
-                                    <#--<input type="hidden" name="sql">-->
-                                    <#--<td>-->
-                                        <#--<button class="btn btn-warning btn-xs updateSub"-->
-                                                <#--id="${item_index+1}"-->
-                                                <#--subtask_name="${item.subtask_name}"-->
-                                                <#--sql="${item.sql}">编辑-->
-                                        <#--</button>-->
-                                        <#--<button class="btn btn-danger btn-xs remove" id="${item.subtask_name}">删除-->
-                                        <#--</button>-->
-                                        <#--<button class="btn btn-warning btn-xs up" id="${item.subtask_name}">上移</button>-->
-                                        <#--<button class="btn btn-warning btn-xs down" id="${item.subtask_name}">下移-->
-                                        <#--</button>-->
-                                    <#--</td>-->
-                                <#--</tr>-->
-                                <#--</#list>-->
                                 </tbody>
                             </table>
                         </div>
                 </div>
-              <!--<div class="modal-footer">
-                    <button type="button" id="rebut" class="btn btn-default" data-dismiss="modal">关闭
-                    </button>
-
-                </div>-->
-            <#--<hr>-->
 
             </div>
             </form>
@@ -304,8 +269,6 @@
 <script src="${request.contextPath}/static/adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <#-- jquery.validate -->
 <script src="${request.contextPath}/static/plugins/jquery/jquery.validate.min.js"></script>
-<#--<script src="${request.contextPath}/static/plugins/jquery/jquery-3.2.1.js"></script>-->
-<#--<script src="${request.contextPath}/static/plugins/jquery/commons.js"></script>-->
 <script src="${request.contextPath}/static/js/jobsql.index.1.js"></script>
 </body>
 </html>

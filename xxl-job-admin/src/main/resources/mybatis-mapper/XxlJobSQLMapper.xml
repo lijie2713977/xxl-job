@@ -19,7 +19,6 @@
 		ORDER BY t.id ASC
 	</select>
 
-
 	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobSQL" >
 		INSERT INTO XXL_JOB_VBILL_SQL_TASK_LIST (sqlList)
 		values (#{sqlList});
@@ -35,7 +34,11 @@
 		<!--INSERT INTO XXL_JOB_QRTZ_TRIGGER_GROUP ( `app_name`, `title`, `order`, `address_type`, `address_list`)-->
 		<!--values ( #{appName}, #{title}, #{order}, #{addressType}, #{addressList});-->
 	<!--</insert>-->
-
+	<update id="updateSubTask" parameterType="java.util.HashMap">
+		UPDATE XXL_JOB_VBILL_SQL_TASK_LIST
+		SET `sqlList` = #{sqlList}
+		WHERE id = #{id}
+	</update>
 
 	<update id="update" parameterType="com.xxl.job.admin.core.model.XxlJobSQL" >
 		UPDATE XXL_JOB_VBILL_SQL_TASK_LIST

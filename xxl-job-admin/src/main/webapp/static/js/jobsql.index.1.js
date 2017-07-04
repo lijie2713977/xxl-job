@@ -1,9 +1,7 @@
 $(function () {
-
     // remove
     $('.remove').on('click', function () {
         var id = $(this).attr('id');
-
         layer.confirm('确认删除分组?', {icon: 3, title: '系统提示'}, function (index) {
             layer.close(index);
 
@@ -36,8 +34,6 @@ $(function () {
     });
 
     // jquery.validate 自定义校验 “英文字母开头，只含有英文字母、数字和下划线”
-
-
     $('.add').on('click', function () {
         $('#addModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
@@ -148,7 +144,6 @@ $(function () {
             task_name: {
                 required: true,
                 rangelength: [4, 1000],
-
             },
             cc_lists: {
                 required: true,
@@ -213,7 +208,6 @@ $(function () {
         $("#updateModal .form .form-group").removeClass("has-error");
     });
 
-    // updateSub
     $('.updateSub').on('click', function () {
         var id = $(this).attr('id');
         $.ajax({
@@ -230,12 +224,11 @@ $(function () {
                             "<tr> " +
                             "<td>" + (Number(o) + Number(1)) + "</td>" +
                             "<td>" + data[o].subtask_name + "</td>" +
-                            // "<input type='hidden' name='sql' value='+" + datajson[o].sql + "'" + "</input>" +
                             "<td>" +
-                            "<a class='btn btn-warning btn-xs updateSub' id="+o+1+" subtask_name='"+data[o].subtask_name+"' sql='"+data[o].sql+"'>编辑</a>" +
-                            "<a class='btn btn-danger btn-xs removeSub' id="+data[o].subtask_name+">删除</a>" +
-                            "<a class='btn btn-warning btn-xs up' id="+data[o].subtask_name+">上移</a>" +
-                            "<a class='btn btn-warning btn-xs down' id="+data[o].subtask_name+">下移</a>"+
+                            "<a class='btn btn-warning btn-xs updateSub' id=" + o + 1 + " subtask_name='" + data[o].subtask_name + "' sql='" + data[o].sql + "'>编辑</a>" +
+                            "<a class='btn btn-danger btn-xs removeSub' id=" + data[o].subtask_name + ">删除</a>" +
+                            "<a class='btn btn-warning btn-xs up' id='" + id + "' subtask_name=" + data[o].subtask_name + ">上移</a>" +
+                            "<a class='btn btn-warning btn-xs down' id='" + id + "' subtask_name=" + data[o].subtask_name + ">下移</a>" +
                             "</td>" +
                             "</tr>"
                         );
@@ -259,7 +252,7 @@ $(function () {
         errorClass: 'help-block',
         focusInvalid: true,
         rules: {
-        	subtask_name: {
+            subtask_name: {
                 required: true,
                 rangelength: [4, 1000]
 
@@ -270,7 +263,7 @@ $(function () {
             }
         },
         messages: {
-        	subtask_name: {
+            subtask_name: {
                 required: "请输入“子任务名称”",
                 rangelength: "子任务名称长度限制为4~1000"
 
@@ -313,52 +306,51 @@ $(function () {
             });
         }
     });
-    $(".subAdd").on('click',function(){
-    	$("#subtask_name").val('');
-    	$("#sql").val('');
+    $(".subAdd").on('click', function () {
+        $("#subtask_name").val('');
+        $("#sql").val('');
     });
-    $('#subtasklist').on('click','.updateSub',function(){
-    	$("#subtask_name").val($(this).attr("subtask_name"));
-    	$("#sql").val($(this).attr("sql"));
+    $('#subtasklist').on('click', '.updateSub', function () {
+        $("#subtask_name").val($(this).attr("subtask_name"));
+        $("#sql").val($(this).attr("sql"));
     });
-    $('#subtasklist').on('click','.removeSub',function(){
-    	 var subtask_name = $(this).attr('id');
-         var id=$("#updateSubModal .form input[name='sid']").val()
-         layer.confirm('确认删除分组?', {icon: 3, title: '系统提示'}, function (index) {
-             layer.close(index);
-
-             $.ajax({
-                 type: 'POST',
-                 url: base_url + '/jobsql/subRemove',
-                 data: {"subtask_name": subtask_name,"id":id},
-                 dataType: "json",
-                 success: function (data) {
-                     if (data.code == 200) {
-                         layer.open({
-                             title: '系统提示',
-                             content: '删除成功',
-                             icon: '1',
-                             end: function (layero, index) {
-                            	 location.reload(); 
-                             }
-                         });
-                     } else {
-                         layer.open({
-                             title: '系统提示',
-                             content: (data.msg || "删除失败"),
-                             icon: '2'
-                         });
-                     }
-                 },
-             });
-         });
+    $('#subtasklist').on('click', '.removeSub', function () {
+        var subtask_name = $(this).attr('id');
+        var id = $("#updateSubModal .form input[name='sid']").val()
+        layer.confirm('确认删除分组?', {icon: 3, title: '系统提示'}, function (index) {
+            layer.close(index);
+            $.ajax({
+                type: 'POST',
+                url: base_url + '/jobsql/subRemove',
+                data: {"subtask_name": subtask_name, "id": id},
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        layer.open({
+                            title: '系统提示',
+                            content: '删除成功',
+                            icon: '1',
+                            end: function (layero, index) {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        layer.open({
+                            title: '系统提示',
+                            content: (data.msg || "删除失败"),
+                            icon: '2'
+                        });
+                    }
+                },
+            });
+        });
     });
-    $(".subSave").on('click',function(){
-    	$.post(base_url + "/jobsql/subSave", $("#updateSubModal .form").serialize(), function (data, status) {
+    $(".subSave").on('click', function () {
+        $.post(base_url + "/jobsql/subSave", $("#updateSubModal .form").serialize(), function (data, status) {
             if (data.code == "200") {
                 $('#updateSubModal').modal('hide');
                 $("#subtask_name").val('');
-            	$("#sql").val('');
+                $("#sql").val('');
                 layer.open({
                     title: '系统提示',
                     content: '保存成功',
@@ -401,24 +393,59 @@ $(function () {
 
 
     //上移
-    var $up = $(".up");
-    $up.click(function () {
-        var $tr = $(this).parents("tr");
+    $('#subtasklist').on('click', '.up', function () {
+        var $tr = $(this).parents("td").parent("tr");
         if ($tr.index() != 0) {
-            $tr.fadeOut().fadeIn();
-            $tr.prev().before($tr);
-        }
-    });
-    //下移
-    var $down = $(".down");
-    var len = $down.length;
-    $down.click(function () {
-        var $tr = $(this).parents("tr");
-        if ($tr.index() != len - 1) {
-            $tr.fadeOut().fadeIn();
-            $tr.next().after($tr);
+            // id是子任务名称
+            var thisElement = $tr.children("td").children("a").eq(2);
+            var id = thisElement.attr('id');
+            var current_id = thisElement.attr('subtask_name');
+            var exchange_id = $tr.prev("tr").children("td").children("a").eq(2).attr('subtask_name');
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/jobsql/exchange_sort",
+                data: {"id": id, "current_id": current_id, "exchange_id": exchange_id},
+                // data: 'id=' + id + '&current_id=' + current_id + '&exchange_id=' + exchange_id,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        $tr.fadeOut().fadeIn();
+                        $tr.prev().before($tr);
+                        layer.msg('上移成功', {icon: 1});
+                    } else {
+                        layer.msg('上移失败', {icon: 2});
+                    }
+                }
+            });
         }
     });
 
+    //下移
+    $('#subtasklist').on('click', '.down', function () {
+        var $down = $(".down");
+        var len = $down.length;
+        var $tr = $(this).parents("td").parent("tr");
+        if ($tr.index() != len - 1) {
+            var thisElement = $tr.children("td").children("a").eq(3);
+            var id = thisElement.attr('id');
+            var current_id = thisElement.attr('subtask_name');
+            var exchange_id = $tr.next("tr").children("td").children("a").eq(3).attr('subtask_name');
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/jobsql/exchange_sort",
+                data: 'id=' + id + '&current_id=' + current_id + '&exchange_id=' + exchange_id,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        $tr.fadeOut().fadeIn();
+                        $tr.next().after($tr);
+                        layer.msg('下移成功', {icon: 1});
+                    } else {
+                        layer.msg('下移失败', {icon: 2});
+                    }
+                }
+            });
+        }
+    });
 
 });
