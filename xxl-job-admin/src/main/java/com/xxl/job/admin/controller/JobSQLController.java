@@ -2,22 +2,6 @@
 package com.xxl.job.admin.controller;
 
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -26,6 +10,24 @@ import com.xxl.job.admin.core.model.XxlJobSubSQL;
 import com.xxl.job.admin.dao.IXxlJobInfoDao;
 import com.xxl.job.admin.dao.IXxlJobSQLDao;
 import com.xxl.job.core.biz.model.ReturnT;
+import com.xxl.job.core.util.Const;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * SQL控制器
@@ -80,7 +82,7 @@ public class JobSQLController {
             return new ReturnT<String>(500, "请输入数据源");
         }
         if (xxlJobSQL.getCc_lists() == null || StringUtils.isBlank(xxlJobSQL.getTask_name())) {
-            return new ReturnT<String>(500, "请输入发件人");
+            return new ReturnT<String>(500, "请输入抄送人");
         }
         if (xxlJobSQL.getRecipient_lists() == null || StringUtils.isBlank(xxlJobSQL.getTask_name())) {
             return new ReturnT<String>(500, "请输入收件人");
@@ -103,7 +105,7 @@ public class JobSQLController {
             return new ReturnT<String>(500, "请输入数据源");
         }
         if (xxlJobSQL.getCc_lists() == null || StringUtils.isBlank(xxlJobSQL.getTask_name())) {
-            return new ReturnT<String>(500, "请输入发件人");
+            return new ReturnT<String>(500, "请输入抄送人");
         }
         if (xxlJobSQL.getRecipient_lists() == null || StringUtils.isBlank(xxlJobSQL.getTask_name())) {
             return new ReturnT<String>(500, "请输入收件人");
@@ -119,107 +121,92 @@ public class JobSQLController {
 
     @RequestMapping("/subSave")
     @ResponseBody
-    public ReturnT<String> subSave(XxlJobSubSQL xxlJobSubSQL,int sid) {
-    	try {
-    		// valid
-    		String sqlList = xxlJobSQLDao.querySubTasks(sid);
-    		JSONObject jsonObject = JSON.parseObject(sqlList);//json字符串转换成jsonobject对象
-    		JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
-    		String task_name = jsonObject.get("task_name").toString();
-    		String datasource_name = jsonObject.get("datasource_name").toString();
-    		String recipient_lists = jsonObject.get("recipient_lists").toString();
-    		String cc_lists = jsonObject.get("cc_lists").toString();
-    		List<XxlJobSubSQL> subList = null;
-    		if(jsonArray==null){
-    			subList = new ArrayList<>();
-    		}else{
-    		    subList = jsonArray.toJavaList(XxlJobSubSQL.class);
-    		    for(XxlJobSubSQL jobSubSQL:subList ){
-    		    	if(jobSubSQL.getSubtask_name().equals(xxlJobSubSQL.getSubtask_name())){
-    		    		return new ReturnT(500, "sql任务名重复");
-    		    	}
-    		    }
-    		}
-    		subList.add(xxlJobSubSQL);
-    		XxlJobSQL jobSQL = new XxlJobSQL();
-    		jobSQL.setId(sid);
-    		jobSQL.setTask_name(task_name);
-    		jobSQL.setRecipient_lists(recipient_lists);
-    		jobSQL.setDatasource_name(datasource_name);
-    		jobSQL.setCc_lists(cc_lists);
-    		jobSQL.setSubtasks(subList);
-    		String newSqlList = JSON.toJSONString(jobSQL);
-    		jobSQL.setSqlList(newSqlList);
-    		int ret = xxlJobSQLDao.update(jobSQL);
-    		return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return  ReturnT.FAIL;
-		}
+    public ReturnT<String> subSave(XxlJobSubSQL xxlJobSubSQL, int sid) {
+        try {
+            // valid
+            if (xxlJobSubSQL.getSubtask_name() == null || StringUtils.isBlank(xxlJobSubSQL.getSubtask_name())) {
+                return new ReturnT<String>(500, "请输入子任务名称");
+            }
+            if (xxlJobSubSQL.getSql() == null || StringUtils.isBlank(xxlJobSubSQL.getSql())) {
+                return new ReturnT<String>(500, "请输入sql脚本");
+            }
+
+            String sqlList = xxlJobSQLDao.querySubTasks(sid);
+            JSONObject jsonObject = JSON.parseObject(sqlList);//json字符串转换成jsonobject对象
+            JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
+            String task_name = jsonObject.get("task_name").toString();
+            String datasource_name = jsonObject.get("datasource_name").toString();
+            String recipient_lists = jsonObject.get("recipient_lists").toString();
+            String cc_lists = jsonObject.get("cc_lists").toString();
+            List<XxlJobSubSQL> subList = null;
+            if (jsonArray == null) {
+                subList = new ArrayList<>();
+            } else {
+                subList = jsonArray.toJavaList(XxlJobSubSQL.class);
+                for (XxlJobSubSQL jobSubSQL : subList) {
+                    if (jobSubSQL.getSubtask_name().equals(xxlJobSubSQL.getSubtask_name())) {
+                        return new ReturnT(500, "sql任务名重复");
+                    }
+                }
+            }
+            subList.add(xxlJobSubSQL);
+            XxlJobSQL jobSQL = new XxlJobSQL();
+            jobSQL.setId(sid);
+            jobSQL.setTask_name(task_name);
+            jobSQL.setRecipient_lists(recipient_lists);
+            jobSQL.setDatasource_name(datasource_name);
+            jobSQL.setCc_lists(cc_lists);
+            jobSQL.setSubtasks(subList);
+            String newSqlList = JSON.toJSONString(jobSQL);
+            jobSQL.setSqlList(newSqlList);
+            int ret = xxlJobSQLDao.update(jobSQL);
+            return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ReturnT.FAIL;
+        }
 
     }
+
     @RequestMapping("/subRemove")
     @ResponseBody
-    public ReturnT<String> subRemove(int id,String subtask_name) {
-    	try {
-    		String sqlList = xxlJobSQLDao.querySubTasks(id);
-    		JSONObject jsonObject = JSON.parseObject(sqlList);//json字符串转换成jsonobject对象
-    		JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
-    		String task_name = jsonObject.get("task_name").toString();
-    		String datasource_name = jsonObject.get("datasource_name").toString();
-    		String recipient_lists = jsonObject.get("recipient_lists").toString();
-    		String cc_lists = jsonObject.get("cc_lists").toString();
-    		List<XxlJobSubSQL> subList = jsonArray.toJavaList(XxlJobSubSQL.class);
-    		boolean b=false;
-    		XxlJobSubSQL xxlJobSubSQL=null;
-    		for(int i=0;i<subList.size();i++){
-    			xxlJobSubSQL=subList.get(i);
-    			if(xxlJobSubSQL.getSubtask_name().equals(subtask_name)){
-    				 b = subList.remove(xxlJobSubSQL);
-    			}
-    		}
-    		if(b){
-    		XxlJobSQL jobSQL = new XxlJobSQL();
-    		jobSQL.setId(id);
-    		jobSQL.setTask_name(task_name);
-    		jobSQL.setRecipient_lists(recipient_lists);
-    		jobSQL.setDatasource_name(datasource_name);
-    		jobSQL.setCc_lists(cc_lists);
-    		jobSQL.setSubtasks(subList);
-    		String newSqlList = JSON.toJSONString(jobSQL);
-    		jobSQL.setSqlList(newSqlList);
-    		xxlJobSQLDao.update(jobSQL);
-    		return ReturnT.SUCCESS;
-    		}else{
-    		return  ReturnT.FAIL;
-    		}
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return  ReturnT.FAIL;
-    	}
-
-    public ReturnT<String> subSave(XxlJobSubSQL xxlJobSubSQL, int id) {
-        // valid
-        String sqlList = xxlJobSQLDao.querySubTasks(id);
-        JSONObject jsonObject = JSON.parseObject(sqlList);//json字符串转换成jsonobject对象
-        JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
-        String task_name = jsonObject.get("task_name").toString();
-        String datasource_name = jsonObject.get("datasource_name").toString();
-        String recipient_lists = jsonObject.get("recipient_lists").toString();
-        String cc_lists = jsonObject.getJSONObject("cc_lists").toString();
-        List<XxlJobSubSQL> subList = jsonArray.toJavaList(XxlJobSubSQL.class);
-        subList.add(xxlJobSubSQL);
-        XxlJobSQL jobSQL = new XxlJobSQL();
-        jobSQL.setId(id);
-        jobSQL.setTask_name(task_name);
-        jobSQL.setRecipient_lists(recipient_lists);
-        jobSQL.setDatasource_name(datasource_name);
-        jobSQL.setCc_lists(cc_lists);
-        jobSQL.setSubtasks(subList);
-        String newSqlList = JSON.toJSONString(jobSQL);
-        jobSQL.setSqlList(newSqlList);
-        int ret = xxlJobSQLDao.update(jobSQL);
-        return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
+    public ReturnT<String> subRemove(int id, String subtask_name) {
+        try {
+            String sqlList = xxlJobSQLDao.querySubTasks(id);
+            JSONObject jsonObject = JSON.parseObject(sqlList);//json字符串转换成jsonobject对象
+            JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
+            String task_name = jsonObject.get("task_name").toString();
+            String datasource_name = jsonObject.get("datasource_name").toString();
+            String recipient_lists = jsonObject.get("recipient_lists").toString();
+            String cc_lists = jsonObject.get("cc_lists").toString();
+            List<XxlJobSubSQL> subList = jsonArray.toJavaList(XxlJobSubSQL.class);
+            boolean b = false;
+            XxlJobSubSQL xxlJobSubSQL = null;
+            for (int i = 0; i < subList.size(); i++) {
+                xxlJobSubSQL = subList.get(i);
+                if (xxlJobSubSQL.getSubtask_name().equals(subtask_name)) {
+                    b = subList.remove(xxlJobSubSQL);
+                }
+            }
+            if (b) {
+                XxlJobSQL jobSQL = new XxlJobSQL();
+                jobSQL.setId(id);
+                jobSQL.setTask_name(task_name);
+                jobSQL.setRecipient_lists(recipient_lists);
+                jobSQL.setDatasource_name(datasource_name);
+                jobSQL.setCc_lists(cc_lists);
+                jobSQL.setSubtasks(subList);
+                String newSqlList = JSON.toJSONString(jobSQL);
+                jobSQL.setSqlList(newSqlList);
+                xxlJobSQLDao.update(jobSQL);
+                return ReturnT.SUCCESS;
+            } else {
+                return ReturnT.FAIL;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ReturnT.FAIL;
+        }
     }
 
     @RequestMapping("/remove")
@@ -288,20 +275,41 @@ public class JobSQLController {
         return jsonStr;
     }
 
-}
     @RequestMapping("/exchange_sort")
     @ResponseBody
-    public ReturnT<String> exchange_sort(String current_id,String exchange_id) {
-        List<XxlJobSQL> xxlJobSQLs = xxlJobSQLDao.findAll();
-        List<String> xxlJobSQLStrs = new ArrayList<String>();
-        for (XxlJobSQL xxlJobSQL : xxlJobSQLs) {
-            xxlJobSQLStrs.add(xxlJobSQL.getSqlList());
+    public ReturnT<String> exchange_sort(Integer id, String current_id, String exchange_id) {
+        checkArgument(id != 0, "任务ID不能为空");
+        checkArgument(current_id != null, "当前子任务名称不能为空");
+        checkArgument(exchange_id != null, "任务名称不能为空");
+//        Strings.isNullOrEmpty(current_id);
+        try {
+            String tasks = xxlJobSQLDao.queryTasks(id);//查询数据
+            JSONObject jsonObject = JSON.parseObject(tasks);
+            JSONArray jsonArray = jsonObject.getJSONArray("subtasks");
+            List<Object> objLists = Const.toList(jsonArray);
+            int i = 0;
+            int current_index = 0;
+            int exchange_index = 0;
+            for (Object obj : objLists) {
+                i++;
+                HashMap hashMaps = (HashMap) obj;
+                if (current_id.equals(hashMaps.get("subtask_name"))) {
+                    current_index = i;
+                }
+                if (exchange_id.equals(hashMaps.get("subtask_name"))) {
+                    exchange_index = i;
+                }
+            }
+            List<Object> listsOver = Const.indexExChange(objLists, current_index - 1, exchange_index - 1);
+            String jsonText = JSON.toJSONString(listsOver, false);
+            jsonObject.remove("subtasks");
+            jsonObject.put("subtasks", jsonText);
+            xxlJobSQLDao.update(id, jsonObject.toJSONString());
+        } catch (Exception e) {
+            Const.getCustomStackTrace(e);
+            return ReturnT.FAIL;
         }
-        String jsonStr = JSON.toJSONString(xxlJobSQLStrs, true);
-        System.out.println("查询所有SQL列表的jsonStr:" + jsonStr);
         return ReturnT.SUCCESS;
     }
-
-
 
 }

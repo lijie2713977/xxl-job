@@ -54,7 +54,7 @@
 		<dependency>
 		    <groupId>javax.mail</groupId>
 		    <artifactId>mail</artifactId>
-		    <version>1.4.7</version>
+		    <version>1.4.6</version>
 		</dependency>
 		
 		<dependency>
@@ -62,8 +62,12 @@
 		    <artifactId>poi</artifactId>
 		    <version>3.16</version>
 		</dependency>
-		
-        
+
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-database</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
     <!--<build>-->
     <!--<finalName>xxl-job-executor-sql</finalName>-->

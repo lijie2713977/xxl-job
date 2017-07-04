@@ -6,10 +6,38 @@ import com.xxl.job.admin.core.model.XxlJobSQL;
 import java.util.List;
 
 
-
 public interface IXxlJobSQLDao {
 
+    /**
+     * 查询所有数据
+     *
+     * @return
+     */
     public List<XxlJobSQL> findAll();
+
+    /**
+     * 任务id
+     *
+     * @param id 任务ID
+     * @return
+     */
+    public String queryTasks(int id);
+
+    /**
+     * 子任务id
+     *
+     * @param id 任务ID
+     * @return
+     */
+    public String querySubTasks(int id);
+
+    /**
+     * 更新子任务
+     * @param id
+     * @param jsonStr 子任务json转化后的字符串
+     * @return
+     */
+    public int update(int id,String jsonStr);
 
     public List<XxlJobInfo> pageList(int offset, int pagesize, int jobGroup, String executorHandler);
 
@@ -27,12 +55,5 @@ public interface IXxlJobSQLDao {
 
     public int findAllCount();
 
-
-    /**
-     * 子任务id
-     * @param id
-     * @return
-     */
-    public String querySubTasks(int id);
 
 }
