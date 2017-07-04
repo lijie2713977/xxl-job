@@ -29,10 +29,10 @@ public class ExportXlsTest {
 		//Connection con = null;// 创建一个数据库连接
 	    PreparedStatement pre = null;// 创建预编译语句对象，一般都是用这个而不用Statement
 	    ResultSet rs = null;// 创建一个结果集对象
-	    
 	        try {
 	        	HSSFWorkbook workbook = new HSSFWorkbook();// 创建一个Excel文件，当前这个文件在内存中
 	        	for(XxlJobSubSQL xxlJobSubSQL:list){
+	        		System.out.println(xxlJobSubSQL.getSql());
 				pre = con.prepareStatement(xxlJobSubSQL.getSql());// 实例化预编译语句
 				rs = pre.executeQuery();// 执行查询
 				ResultSetMetaData md = rs.getMetaData();
@@ -51,6 +51,7 @@ public class ExportXlsTest {
 		            }  
 		           }  
 	        	}
+	        
 		          // OutputStream out=new FileOutputStream(new File("test.xls"));
 		           workbook.write(out);
 		           out.close();

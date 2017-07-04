@@ -57,7 +57,7 @@ public class JavaMail {
      * 初始化方法
      */
     public JavaMail(boolean debug) {
-        InputStream in = JavaMail.class.getResourceAsStream("MailServer.properties");
+        InputStream in = JavaMail.class.getResourceAsStream("/MailServer.properties");
         try {
             properties.load(in);
             this.mailHost = properties.getProperty("mail.smtp.host");
@@ -139,5 +139,5 @@ public class JavaMail {
         }
     }
 
-    
+   
 }

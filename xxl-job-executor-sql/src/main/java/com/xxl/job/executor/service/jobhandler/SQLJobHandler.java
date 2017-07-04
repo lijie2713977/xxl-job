@@ -54,9 +54,9 @@ public class SQLJobHandler extends IJobHandler {
         }
         Connection connection = DBConnectionPool.getConnection(datasource_name);
         ExportXlsTest exportXlsTest=new ExportXlsTest();
-        exportXlsTest.exportXls(connection, new FileOutputStream(new File("d:/test.xls")), subList);
+        exportXlsTest.exportXls(connection, new FileOutputStream(new File("D:\\test1.xls")), subList);
         JavaMail javaMail=new JavaMail(true);
-        javaMail.doSendHtmlEmail("主題","内容", recipient_lists, params[0], new FileInputStream(new File("d:/test.xls")));
+        javaMail.doSendHtmlEmail("主題","内容", recipient_lists, params[0], new FileInputStream(new File("D:\\test1.xls")));
         
         
         for (int i = 0; i < 5; i++) {
