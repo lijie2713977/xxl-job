@@ -2,6 +2,7 @@ package com.xxl.job.admin.dao;
 
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.model.XxlJobSQL;
+import com.xxl.job.admin.core.model.XxlJobSQLEntity;
 
 import java.util.List;
 
@@ -38,6 +39,13 @@ public interface IXxlJobSQLDao {
      * @return
      */
     public int update(int id,String jsonStr);
+
+    /**
+     * 查询所有数据
+     *
+     * @return
+     */
+    public List<XxlJobSQLEntity> findAllEntity();
 
     public List<XxlJobInfo> pageList(int offset, int pagesize, int jobGroup, String executorHandler);
 

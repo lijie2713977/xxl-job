@@ -19,7 +19,6 @@
 		ORDER BY t.id ASC
 	</select>
 
-
 	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobSQL" >
 		INSERT INTO XXL_JOB_VBILL_SQL_TASK_LIST (sqlList)
 		values (#{sqlList});

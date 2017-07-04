@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xxl.job.admin.core.model.XxlJobSQL;
+import com.xxl.job.admin.core.model.XxlJobSQLEntity;
 import com.xxl.job.admin.core.model.XxlJobSubSQL;
 import com.xxl.job.admin.dao.IXxlJobInfoDao;
 import com.xxl.job.admin.dao.IXxlJobSQLDao;
@@ -273,6 +274,13 @@ public class JobSQLController {
         String jsonStr = JSON.toJSONString(xxlJobSQLStrs, true);
         System.out.println("查询所有SQL列表的jsonStr:" + jsonStr);
         return jsonStr;
+    }
+
+    @RequestMapping("/findAllEntity")
+    @ResponseBody
+    public ReturnT<List<XxlJobSQLEntity>> findAllEntity(int id) {
+        List<XxlJobSQLEntity> xxlJobSQLEntities = xxlJobSQLDao.findAllEntity();
+        return new ReturnT<List<XxlJobSQLEntity>>(xxlJobSQLEntities);
     }
 
     @RequestMapping("/exchange_sort")
