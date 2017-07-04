@@ -201,7 +201,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-6">
 							<button type="submit" class="btn btn-primary"  >保存</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="add_display">取消</button>
 						</div>
 					</div>
 
@@ -362,12 +362,13 @@ logging.info("脚本文件：" + sys.argv[0])
                     <div class="form-group">
                         <label for="firstname" class="col-sm-2 control-label">执行器<font color="red">*</font></label>
                         <div class="col-sm-4">
-                            <select class="form-control" name="jobGroup" disabled >
-							<#list JobGroupList as group>
-                                <option value="${group.id}" >${group.title}</option>
-							</#list>
-                            </select>
-                        </div>
+							<select id="typeid2" class="form-control executorSelect" name="jobGroup" onchange="gettypename2()" disabled>
+		            			<#list JobGroupList as group>
+		            				<option value="${group.id}">${group.title}</option>
+		            			</#list>
+		                  	</select>
+                            <input id="typename" name="typename" type="hidden" value=""/>
+						</div>
                         <label for="lastname" class="col-sm-2 control-label">任务描述<font color="red">*</font></label>
                         <div class="col-sm-4"><input type="text" class="form-control" name="jobDesc" placeholder="请输入“描述”" maxlength="50" ></div>
                     </div>
@@ -397,7 +398,7 @@ logging.info("脚本文件：" + sys.argv[0])
                     </div>
                     <div class="form-group">
                         <label for="firstname" class="col-sm-2 control-label">执行参数<font color="black">*</font></label>
-                        <div class="col-sm-4"><input type="text" class="form-control" name="executorParam" placeholder="请输入“执行参数”" maxlength="100" ></div>
+                        <div id="exeParameters2"></div>
                         <label for="lastname" class="col-sm-2 control-label">子任务Key<font color="black">*</font></label>
                         <div class="col-sm-4"><input type="text" class="form-control" name="childJobKey" placeholder="请输入子任务的任务Key,如存在多个逗号分隔" maxlength="100" ></div>
                     </div>

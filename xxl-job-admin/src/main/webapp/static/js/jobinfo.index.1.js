@@ -290,9 +290,13 @@ $(function() {
 						end: function(layero, index){
 							jobTable.fnDraw();
 							//window.location.reload();
+							$('#exeParameters').html("");
+							$('#exeParameters').html("<div class='col-sm-4'><input type='text' class='form-control' name='executorParam' placeholder='请输入“执行参数”' maxlength='100'></div>");
 						}
 					});
     			} else {
+    				$('#exeParameters').html("");
+					$('#exeParameters').html("<div class='col-sm-4'><input type='text' class='form-control' name='executorParam' placeholder='请输入“执行参数”' maxlength='100'></div>");
 					layer.open({
 						title: '系统提示',
 						content: (data.msg || "新增失败"),
@@ -350,6 +354,55 @@ $(function() {
             });
             return;
         }
+        var typename = $('#updateModal .form select[name=jobGroup] option[value='+ row.jobGroup +']').text();
+        alert(row.executorParam);
+        var addbody = $('#exeParameters2');
+        var subtable;
+        addbody.html("");//进入前清空之前的数据
+        if (typename == "SQL执行器") {
+
+            $.ajax({
+                type: 'POST',
+                url: base_url + '/jobsql/findAll',
+                data: {"id": 222},
+                dataType: "json",
+                success: function (data) {
+                    if (typeof(data.length) != "undefined") {
+                        subtable =
+                            "<div class='col-sm-4'>" +
+                            "<select class='form-control glueType' name='executorParam' id='task_name1'>";
+                        subtable += "<option value='选择SQL'>选择SQL</option>";
+                        for (var i = 0; i < data.length; i++) {
+                        	if(JSON.parse(data[i]).task_name==row.executorParam){
+                        		subtable += "<option value=" + JSON.parse(data[i]).task_name + " selected>" + JSON.parse(data[i]).task_name + "</option>";
+                        	}else{
+                        		subtable += "<option value=" + JSON.parse(data[i]).task_name + ">" + JSON.parse(data[i]).task_name + "</option>";
+                        	}
+                        }
+                        subtable += "</select><a class='btn btn-info btn-xs col-sm-2 updateSub' >新建SQL</a></div>";
+                        addbody.append(subtable);
+                    } else {
+                        subtable = "<div class='col-sm-4'>" +
+                            "<select class='form-control glueType' name='executorParam'>";
+                        subtable += "</select><a class='btn btn-info btn-xs col-sm-2 updateSub' >新建SQL</a></div>";
+                    }
+                }
+            });
+            // var subtable =  $(subtable);
+            // var subtable = $(
+            //     "<div class='col-sm-4'><select class='form-control glueType' name='datasource_name'><#list echoList as item> <option value='0' >选择SQL</option><option value='${item}' >${item}</option> </#list></select>" +
+            //     "<a class='btn btn-info btn-xs col-sm-2 updateSub' >新建SQL</a></div>"
+            // );
+        } else if (typename == "Kylin执行器") {
+            var subtable = $(
+                "<div class='col-sm-4'><input type='text' class='form-control' name='executorParam' placeholder='请输入“Kylin日期”' maxlength='100'></div>"
+            );
+        } else {
+            var subtable = $(
+                "<div class='col-sm-4'><input type='text' class='form-control' name='executorParam' placeholder='请输入“执行参数”' maxlength='100'></div>"
+            );
+        }
+        addbody.append(subtable);
 
 		// base data
 		$("#updateModal .form input[name='id']").val( row.id );
@@ -360,7 +413,6 @@ $(function() {
 		$("#updateModal .form input[name='alarmEmail']").val( row.alarmEmail );
 		$('#updateModal .form select[name=executorRouteStrategy] option[value='+ row.executorRouteStrategy +']').prop('selected', true);
 		$("#updateModal .form input[name='executorHandler']").val( row.executorHandler );
-		$("#updateModal .form input[name='executorParam']").val( row.executorParam );
         $("#updateModal .form input[name='childJobKey']").val( row.childJobKey );
 		$('#updateModal .form select[name=executorBlockStrategy] option[value='+ row.executorBlockStrategy +']').prop('selected', true);
 		$('#updateModal .form select[name=executorFailStrategy] option[value='+ row.executorFailStrategy +']').prop('selected', true);
@@ -421,6 +473,7 @@ $(function() {
 						end: function(layero, index){
 							//window.location.reload();
 							jobTable.fnDraw();
+							
 						}
 					});
     			} else {
@@ -484,8 +537,17 @@ $(function() {
         //     }
         // });
         $('#updateSubModal').modal({backdrop: false, keyboard: false}).modal('show');
-    })
+    });
+    $('#exeParameters2').on('click','.updateSub',function(){
+    	
+    	$('#updateSubModal').modal({backdrop: false, keyboard: false}).modal('show');
+    });
+    $("#add_display").on('click',function(){
+    	$('#exeParameters').html("");
+    	$('#exeParameters').html("<div class='col-sm-4'><input type='text' class='form-control' name='executorParam' placeholder='请输入“执行参数”' maxlength='100'></div>");
+    });
 });
+
 
 // 选择执行器触事件
 function gettypename() {
@@ -508,7 +570,7 @@ function gettypename() {
                 if (typeof(data.length) != "undefined") {
                     subtable =
                         "<div class='col-sm-4'>" +
-                        "<select class='form-control glueType' name='datasource_name'>";
+                        "<select class='form-control glueType' name='executorParam' id='task_name'>";
                     subtable += "<option value='选择SQL'>选择SQL</option>";
                     for (var i = 0; i < data.length; i++) {
                         subtable += "<option value=" + JSON.parse(data[i]).task_name + ">" + JSON.parse(data[i]).task_name + "</option>";
@@ -517,7 +579,7 @@ function gettypename() {
                     addbody.append(subtable);
                 } else {
                     subtable = "<div class='col-sm-4'>" +
-                        "<select class='form-control glueType' name='datasource_name'>";
+                        "<select class='form-control glueType' name='executorParam'>";
                     subtable += "</select><a class='btn btn-info btn-xs col-sm-2 updateSub' >新建SQL</a></div>";
                 }
             }
@@ -537,4 +599,54 @@ function gettypename() {
         );
     }
     addbody.append(subtable);
+}
+function gettypename2() {
+	var typename = $('#typeid2 option:selected').text();//选中的值
+	var typename_val = $('#typeid2 option:selected').val();//选中的value
+	// alert(typename + ":" + typename_val);   //示例执行器:1 Kylin执行器:2   SQL执行器:3
+	
+	var addbody = $('#exeParameters2');
+	var subtable;
+	addbody.html("");//进入前清空之前的数据
+	if (typename == "SQL执行器") {
+		
+		$.ajax({
+			type: 'POST',
+			url: base_url + '/jobsql/findAll',
+			data: {"id": 222},
+			dataType: "json",
+			success: function (data) {
+				var task_name=$("#task_name").val();
+				if (typeof(data.length) != "undefined") {
+					subtable =
+						"<div class='col-sm-4'>" +
+						"<select class='form-control glueType' name='executorParam'>";
+					subtable += "<option value='选择SQL'>选择SQL</option>";
+					for (var i = 0; i < data.length; i++) {
+							subtable += "<option value=" + JSON.parse(data[i]).task_name + ">" + JSON.parse(data[i]).task_name + "</option>";
+					}
+					subtable += "</select><a class='btn btn-info btn-xs col-sm-2 updateSub' >新建SQL</a></div>";
+					addbody.append(subtable);
+				} else {
+					subtable = "<div class='col-sm-4'>" +
+					"<select class='form-control glueType' name='executorParam'>";
+					subtable += "</select><a class='btn btn-info btn-xs col-sm-2 updateSub' >新建SQL</a></div>";
+				}
+			}
+		});
+		// var subtable =  $(subtable);
+		// var subtable = $(
+		//     "<div class='col-sm-4'><select class='form-control glueType' name='datasource_name'><#list echoList as item> <option value='0' >选择SQL</option><option value='${item}' >${item}</option> </#list></select>" +
+		//     "<a class='btn btn-info btn-xs col-sm-2 updateSub' >新建SQL</a></div>"
+		// );
+	} else if (typename == "Kylin执行器") {
+		var subtable = $(
+				"<div class='col-sm-4'><input type='text' class='form-control' name='executorParam' placeholder='请输入“Kylin日期”' maxlength='100'></div>"
+		);
+	} else {
+		var subtable = $(
+				"<div class='col-sm-4'><input type='text' class='form-control' name='executorParam' placeholder='请输入“执行参数”' maxlength='100'></div>"
+		);
+	}
+	addbody.append(subtable);
 }

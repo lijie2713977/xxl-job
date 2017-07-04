@@ -139,8 +139,5 @@ public class JavaMail {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        JavaMail se = new JavaMail(true);
-        se.doSendHtmlEmail("我的邮件","见附件","995129968@qq.com","test.xls",new FileInputStream(new File("D:\\test.xls")));
-    }
+    
 }

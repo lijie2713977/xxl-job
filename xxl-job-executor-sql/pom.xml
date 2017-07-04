@@ -17,12 +17,14 @@
     </properties>
 
     <dependencies>
+        
         <!-- springframe start -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+       
 
         <!-- slf4j -->
         <dependency>
@@ -62,8 +64,18 @@
 		    <artifactId>poi</artifactId>
 		    <version>3.16</version>
 		</dependency>
-		
         
+        <dependency>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-job-database</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+         <dependency>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-job-admin</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
     </dependencies>
     <!--<build>-->
     <!--<finalName>xxl-job-executor-sql</finalName>-->
