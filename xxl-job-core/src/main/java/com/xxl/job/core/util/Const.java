@@ -1,5 +1,8 @@
-package com.xxl.job.database.util;
+package com.xxl.job.core.util;
 
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -968,5 +971,61 @@ public class Const {
             retval = def;
         }
         return retval;
+    }
+    /**
+     * 交换List集合里的元素下标
+     * @param list
+     * @param index1
+     * @param index2
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> indexExChange(List<T> list, int index1, int index2) {
+        T t = list.get(index1);
+        list.set(index1, list.get(index2));
+        list.set(index2, t);
+        return list;
+    }
+
+    /**
+     * JSONArray转为List
+     *
+     * @param array json数组
+     * @return 转化后的List
+     */
+    public static List<Object> toList(JSONArray array) {
+        List<Object> list = new ArrayList<Object>();
+        for (int i = 0; i < array.size(); i++) {
+            Object value = array.get(i);
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
+
+    /**
+     * JSONObject转为map
+     *
+     * @param object json对象
+     * @return 转化后的Map
+     */
+    public static Map<String, Object> toMap(JSONObject object) {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        for (String key : object.keySet()) {
+            Object value = object.get(key);
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+
+        return map;
     }
 }

@@ -2,6 +2,7 @@ package com.xxl.job.admin.dao.impl;
 
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.model.XxlJobSQL;
+import com.xxl.job.admin.core.model.XxlJobSQLEntity;
 import com.xxl.job.admin.dao.IXxlJobSQLDao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -10,9 +11,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * SQL
- */
+
 @Repository
 public class XxlJobSQLDaoImpl implements IXxlJobSQLDao {
 
@@ -21,9 +20,38 @@ public class XxlJobSQLDaoImpl implements IXxlJobSQLDao {
 
     @Override
     public List<XxlJobSQL> findAll() {
-//    	System.out.println(sqlSessionTemplate.selectList("XxlJobSQLMapper.findAll"));
         return sqlSessionTemplate.selectList("XxlJobSQLMapper.findAll");
     }
+
+    @Override
+    public String querySubTasks(int id) {
+        XxlJobSQL xxlJobSQL = sqlSessionTemplate.selectOne("XxlJobSQLMapper.queryTaskById", id);
+        return xxlJobSQL.getSqlList();
+    }
+
+    @Override
+    public int update(int id, String jsonStr) {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("id", id);
+        params.put("sqlList", jsonStr);
+        return sqlSessionTemplate.update("XxlJobSQLMapper.updateSubTask", params);
+    }
+
+    @Override
+    public String queryTasks(int id) {
+        XxlJobSQL xxlJobSQL = sqlSessionTemplate.selectOne("XxlJobSQLMapper.queryTaskById", id);
+        return xxlJobSQL.getSqlList();
+    }
+
+    /**
+     * 查询所有数据
+     *
+     * @return
+     */
+    public List<XxlJobSQLEntity> findAllEntity() {
+        return sqlSessionTemplate.selectList("XxlJobSQLEntityMapper.findAll");
+    }
+    
     @Override
     public List<XxlJobInfo> pageList(int offset, int pagesize, int jobGroup, String executorHandler) {
         HashMap<String, Object> params = new HashMap<String, Object>();
@@ -58,7 +86,7 @@ public class XxlJobSQLDaoImpl implements IXxlJobSQLDao {
 
     @Override
     public int update(XxlJobSQL xxlJobSQL) {
-        return sqlSessionTemplate.update("XxlJobSQLMapper.update",xxlJobSQL);
+        return sqlSessionTemplate.update("XxlJobSQLMapper.update", xxlJobSQL);
     }
 
     @Override
@@ -76,10 +104,5 @@ public class XxlJobSQLDaoImpl implements IXxlJobSQLDao {
         return sqlSessionTemplate.selectOne("XxlJobInfoMapper.findAllCount");
     }
 
-    @Override
-    public String querySubTasks(int id) {
-        XxlJobSQL xxlJobSQL = sqlSessionTemplate.selectOne("XxlJobSQLMapper.queryTaskById", id);
-        return xxlJobSQL.getSqlList();
-    }
 
 }

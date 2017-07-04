@@ -1,9 +1,9 @@
 package com.xxl.job.database;
 
+import com.xxl.job.core.util.Const;
 import com.xxl.job.database.dboperate.DBManager;
 import com.xxl.job.database.meta.DatabaseMeta;
 import com.xxl.job.database.pool.DBConnectionPool;
-import com.xxl.job.database.util.Const;
 import oracle.jdbc.OracleConnection;
 import org.apache.commons.dbcp.DelegatingConnection;
 import org.slf4j.Logger;
